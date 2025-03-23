@@ -1,27 +1,25 @@
-export interface VenueItem {
-    _id: string,
-    name: string,
-    address: string,
-    district: string,
-    province: string,
-    postalcode: string,
-    tel: string,
-    picture: string,
-    dailyrate: number,
-    __v: number,
-    id: string
-  }
+export interface ShopItem {
+  _id: string,
+  name: string,
+  address: string,
+  tel: string,
+  picture: string,
+  opentime: string,
+  closetime: string,
+  __v: number,
+  id: string
+}
   
-export interface VenueJson {
+export interface ShopJson {
     success: boolean,
     count: number,
     pagination: Object,
-    data: VenueItem[]
+    data: ShopItem[]
   }
 
-export  interface BookingItem {
+export  interface ReservationItem {
     nameLastname: string;
     tel: string;
-    venue: string;
+    shop: string;
     bookDate: string;
   }

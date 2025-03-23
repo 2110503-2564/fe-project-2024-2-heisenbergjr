@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { BookingItem } from "../../../interfaces";
+import { ReservationItem } from "../../../interfaces";
 
 // Define state type
 type BookState = {
-    bookItems: BookingItem[];
+    bookItems: ReservationItem[];
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
 };
@@ -43,7 +43,7 @@ export const bookSlice = createSlice({
     name: "book",
     initialState,
     reducers: {
-        addBooking: (state, action: PayloadAction<BookingItem>) => {
+        addBooking: (state, action: PayloadAction<ReservationItem>) => {
             const existingIndex = state.bookItems.findIndex(
                 (obj) => obj.venue === action.payload.venue && obj.bookDate === action.payload.bookDate
             );
@@ -54,7 +54,7 @@ export const bookSlice = createSlice({
                 state.bookItems.push(action.payload);
             }
         },
-        removeBooking: (state, action: PayloadAction<BookingItem>) => {
+        removeBooking: (state, action: PayloadAction<ReservationItem>) => {
             state.bookItems = state.bookItems.filter(obj =>
                 !(
                     obj.nameLastname === action.payload.nameLastname &&

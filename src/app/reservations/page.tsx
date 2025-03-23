@@ -6,8 +6,9 @@ import { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { BookingItem } from "../../../interfaces";
-import { addBooking } from "@/redux/features/bookSlice";
+import { ReservationItem } from "../../../interfaces";
+import { addBooking } from "@/redux/features/reservSlice";
+import TimeInput from "@/components/TimeInput";
 
 export default function Bookings() {
 
@@ -17,11 +18,11 @@ export default function Bookings() {
     const dispatch = useDispatch<AppDispatch>()
 
     const makeBooking = () => {
-        if(name && bookingDate && tel && venue) {
-            const item:BookingItem = {
+        if(name && bookingDate && tel && shop) {
+            const item:ReservationItem = {
                 nameLastname: name,
                 tel: tel,
-                venue: venue,
+                shop: shop,
                 bookDate: dayjs(bookingDate).format("YYYY/MM/DD"),
             }
             dispatch(addBooking(item))
@@ -31,13 +32,13 @@ export default function Bookings() {
     const [name, setName] = useState<string>("");
     const [bookingDate, setBookingDate] = useState<Dayjs | null>(null)
     const [tel, setTel] = useState<string>("");
-    const [venue, setVenue] = useState<string>("");
+    const [shop, setVenue] = useState<string>("");
 
     return (
         <main className="w-[100%] flex flex-col items-center space-y-4">
 
             <div className="text-xl font-medium">
-                Venue Booking
+                Shop Reservation
             </div>
             <div className="w-fit space-y-2 px-5">
 
@@ -54,13 +55,15 @@ export default function Bookings() {
                 <div className="text-md text-left text-white-600">Enter Your Selected Venue:</div>
                 <div className="bg-slate-100 rounded-lg space-x-5 space-y-2 w-fit px-5 py-5 flex flex-row justify-center">
                     <Select id="venue" sx={{border:{color:'black'}, minWidth:200}}
-                    value={venue}
+                    value={shop}
                     onChange={(e) => setVenue(e.target.value)}>
                         <MenuItem value="Bloom">The Bloom Pavilion</MenuItem>
                         <MenuItem value="Spark">Spark Space</MenuItem>
                         <MenuItem value="GrandTable">The Grand Table</MenuItem>
                     </Select>
                 </div>
+                <div className="text-md text-left text-white-600">Time Slot</div>
+                <div className="bg-slate-100 rounded-lg space-x-5 space-y-2 w-fit px-5 py-5 flex flex-row justify-center"><TimeInput/></div>
 
                 <div className="text-md text-left text-white-600">Venue Date</div>
                 <DateReserve onDateChange={(value) => setBookingDate(value)} />

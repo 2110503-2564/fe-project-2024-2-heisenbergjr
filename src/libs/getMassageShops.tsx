@@ -1,7 +1,7 @@
 export default async function getVenues() {
 
     await new Promise((resolve) => setTimeout(resolve,300))
-    const response = await fetch("https://a08-venue-explorer-backend.vercel.app/api/v1/venues")
+    const response = await fetch("http://localhost:5000/api/v1/massageShops")
     if (!response.ok) {
         throw new Error("Failed to fetch Venues")
     }

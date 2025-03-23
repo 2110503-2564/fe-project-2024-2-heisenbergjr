@@ -16,7 +16,7 @@ export default async function TopMenu() {
                 session ? (
                         <Link href="/api/auth/signout">
                             <div className="h-full px-2 py-2 text-black-700 text-sm">
-                                Sign-Out of {session.user?.name}
+                                Sign-Out
                             </div>
                         </Link>
                     ) : (
@@ -27,10 +27,10 @@ export default async function TopMenu() {
                         </Link>
                     )
                 }
-                <TopMenuItem title="My Booking" pageRef="/mybooking"></TopMenuItem>
+                <TopMenuItem title="My Reservations" pageRef="/myreservation"></TopMenuItem>
             </div>
 
-            <TopMenuItem title="Booking" pageRef="/venue"></TopMenuItem>
+            <TopMenuItem title="View Shops" pageRef="/shop"></TopMenuItem>
 
             <Image src={"/img/logo.png"} className={styles.logoimg} alt='logo'
             width={0} height={0} sizes='100vh'></Image>
