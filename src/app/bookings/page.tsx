@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { BookingItem } from "../../../interfaces";
 import { addBooking } from "@/redux/features/bookSlice";
+import React from "react";
+import TimeInput from "@/components/TimeInput";
 
 export default function Bookings() {
 
@@ -32,6 +34,7 @@ export default function Bookings() {
     const [bookingDate, setBookingDate] = useState<Dayjs | null>(null)
     const [tel, setTel] = useState<string>("");
     const [venue, setVenue] = useState<string>("");
+    const [time,setTime] = useState<string>("");
 
     return (
         <main className="w-[100%] flex flex-col items-center space-y-4">
@@ -61,7 +64,9 @@ export default function Bookings() {
                         <MenuItem value="GrandTable">The Grand Table</MenuItem>
                     </Select>
                 </div>
-
+                <div className="text-md text-left text-white-600">Time Slot</div>
+                <div className="bg-slate-100 rounded-lg space-x-5 space-y-2 w-fit px-5 py-5 flex flex-row justify-center"><TimeInput/></div>
+                
                 <div className="text-md text-left text-white-600">Venue Date</div>
                 <DateReserve onDateChange={(value) => setBookingDate(value)} />
                 
