@@ -1,0 +1,19 @@
+.banner {
+    display:block;
+    padding:5px;
+    margin: 0;
+    width: 100vw;
+    height: 80vh;
+    position: relative;
+}
+
+.bannerText {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.6);
+    background-blend-mode: lighten;
+    border-radius: 20px;
+    color: rgb(255, 255, 255);
+    top: 100px;
+    z-index: 20;
+    text-align: center;
+}
