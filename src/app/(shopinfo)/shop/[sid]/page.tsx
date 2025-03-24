@@ -22,7 +22,7 @@ export default async function VenueDetailPage( {params} : {params: {sid:string}}
                     <div className="text-md mx-5">Tel: {venueDetail.data.tel}</div>
                     <div className="text-md mx-5">Daily Rate: {venueDetail.data.dailyrate}</div>
                     
-                    <Link href={`/bookings?id=${params.sid}&name=${venueDetail.data.name}`}>
+                    <Link href={`/reservations?id=${params.sid}&name=${venueDetail.data.name}`}>
                         <button name="Book Venue" className="text-white shadow-white shadow-md px-3 py-2 block rounded-md bg-sky-600 hover:bg-indigo-600">Book Venue</button>
                     </Link>
                 </div>
