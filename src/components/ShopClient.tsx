@@ -4,6 +4,7 @@ import addShop from "@/libs/createMassageShop";
 import ShopCatalog from "@/components/ShopCatalog";
 import { TextField, Button } from "@mui/material";
 import getUserProfile from "@/libs/getUserProfile";
+import getMassageShops from "@/libs/getMassageShops"; 
 import { fetchBookings } from "@/redux/features/reservSlice";
 import { getSession } from "next-auth/react";
 import { AppDispatch } from "@/redux/store";
@@ -52,6 +53,21 @@ export default function ShopClient({ profile, shops }: ShopClientProps) {
             }
         };
         fetchUserData();
+
+        const fetchData = async () => {
+            try {
+                const fetchedShops = await getMassageShops();
+                console.log("Fetched Shops:", fetchedShops); 
+                
+                if (fetchedShops?.data) {
+                    setShopList(fetchedShops.data);
+                }
+            } catch (error) {
+                console.error("Error fetching shops:", error);
+            }
+        };
+    
+        fetchData();
     }, [dispatch]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,8 +126,8 @@ export default function ShopClient({ profile, shops }: ShopClientProps) {
 
             if (data.success) {
                 setShopList((prevShops) => {
-                    console.log("Previous Shops:", prevShops); // Debugging
-                    return [...prevShops, data.data]; // Ensure data is correct
+                    console.log("Previous Shops:", prevShops); 
+                    return [...prevShops, data.data];
                 });
 
                 setShopData({

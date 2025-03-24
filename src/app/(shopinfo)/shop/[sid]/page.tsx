@@ -1,10 +1,10 @@
 import Image from "next/image"
-import getVenue from "@/libs/getMassageShop";
+import getShop from "@/libs/getMassageShop";
 import Link from "next/link";
 
 export default async function VenueDetailPage( {params} : {params: {sid:string}}) {
 
-    const venueDetail = await getVenue(params.sid);
+    const venueDetail = await getShop(params.sid);
 
     return(
         <main className="text-center p-5">
