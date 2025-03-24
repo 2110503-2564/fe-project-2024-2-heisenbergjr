@@ -10,6 +10,7 @@ import { getSession } from "next-auth/react";
 import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import deleteMassageShop from "@/libs/deleteMassageShop";
+import updateShop from "@/libs/updateMassageShop";
 
 interface Profile {
     data?: { role?: string };
@@ -32,15 +33,17 @@ interface ShopClientProps {
 
 export default function ShopClient({ profile, shops }: ShopClientProps) {
     const dispatch = useDispatch<AppDispatch>();
-    const [showForm, setShowForm] = useState(false);
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [showUpdateForm,setShowUpdateForm] = useState(false);
     const [shopList, setShopList] = useState<Shop[]>([]);
     const [shopData, setShopData] = useState({
-        name: "",
-        address: "",
-        tel: "",
+        id:"",
+        name: "" ,
+        address: "" ,
+        tel: "" ,
         image: null as File | null, 
-        opentime: "",
-        closetime: "",
+        opentime: "" ,
+        closetime: "" ,
     });
 
     const [userToken, setUserToken] = useState<string>("");
@@ -133,6 +136,7 @@ export default function ShopClient({ profile, shops }: ShopClientProps) {
                 });
 
                 setShopData({
+                    id:"",
                     name: "",
                     address: "",
                     tel: "",
@@ -140,7 +144,7 @@ export default function ShopClient({ profile, shops }: ShopClientProps) {
                     opentime: "",
                     closetime: "",
                 });
-                setShowForm(false);
+                setShowAddForm(false);
             } else {
                 console.error("Failed to add shop:", data.message);
             }
@@ -149,6 +153,51 @@ export default function ShopClient({ profile, shops }: ShopClientProps) {
         }
     };
 
+    const handleUpdate = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const updatedFields: Partial<Shop> = {};
+
+        if (shopData.name) updatedFields.name = shopData.name;
+        if (shopData.address) updatedFields.address = shopData.address;
+        if (shopData.tel) updatedFields.tel = shopData.tel;
+        if (shopData.opentime) updatedFields.opentime = shopData.opentime;
+        if (shopData.closetime) updatedFields.closetime = shopData.closetime;
+
+        if (shopData.image) {
+            const imageURL = await handleImageUpload(shopData.image);
+            if (!imageURL) {
+                console.error("Failed to upload image.");
+                return;
+            }
+            updatedFields.image = imageURL;
+        }
+        try {
+            const data = await updateShop(shopData.id, userToken,shopData);
+
+            if (data.success) {
+                setShopList((prevShops) =>
+                    prevShops.map((shop) =>
+                        shop.id === shopData.id ? data.data : shop
+                    )
+                );
+                setShopData({
+                    id:"",
+                    name: "",
+                    address: "",
+                    tel: "",
+                    image: null,
+                    opentime: "",
+                    closetime: "",
+                });
+                setShowUpdateForm(false);
+            } else {
+                console.error("Failed to update shop:", data.message);
+            }
+        } catch (error) {
+            console.error("Error updating shop:", error);
+        }
+    };
     const handleDelete = async (shopId: string) => {
         try {
             await deleteMassageShop(shopId, userToken);
@@ -163,12 +212,14 @@ export default function ShopClient({ profile, shops }: ShopClientProps) {
             <ShopCatalog shopsJSON={{ data: shopList, count: shopList.length }}  onDelete={handleDelete}/>
 
             {profile?.data?.role === "admin" && (
-                <div className="mt-5">
-                    <Button variant="contained" color="primary" onClick={() => setShowForm(!showForm)}>
-                        {showForm ? "Cancel" : "Add Shop"}
+                <div className="mt-5 space-x-10">
+                    <Button variant="contained" color="primary" onClick={() =>{setShowAddForm(!showAddForm);setShowUpdateForm(false);}}>
+                        {showAddForm ? "Cancel" : "Add Shop"}
                     </Button>
-
-                    {showForm && (
+                    <Button variant="contained" color="primary" onClick={() =>{setShowUpdateForm(!showUpdateForm);setShowAddForm(false);} }>
+                        {showUpdateForm ? "Cancel" : "Update Shop"}
+                    </Button>
+                    {showAddForm && (
                         <form onSubmit={handleSubmit} className="mt-4 space-y-2">
                             <TextField label="Name" name="name" fullWidth required onChange={handleChange} sx={{ backgroundColor: "white" }} />
                             <TextField label="Address" name="address" fullWidth required onChange={handleChange} sx={{ backgroundColor: "white" }} />
@@ -180,6 +231,22 @@ export default function ShopClient({ profile, shops }: ShopClientProps) {
                             <TextField label="Close Time" name="closetime" type="time" fullWidth required onChange={handleChange} sx={{ backgroundColor: "white" }} />
                             
                             <Button type="submit" variant="contained" color="success">Add</Button>
+                        </form>
+                    )}
+                    
+                    {showUpdateForm && (
+                        <form onSubmit={handleUpdate} className="mt-4 space-y-2">
+                            <TextField label="Shop ID" name="id" fullWidth required onChange={handleChange} sx={{ backgroundColor: "white" }} />
+                            <TextField label="Name" name="name" fullWidth onChange={handleChange} sx={{ backgroundColor: "white" }} />
+                            <TextField label="Address" name="address" fullWidth onChange={handleChange} sx={{ backgroundColor: "white" }} />
+                            <TextField label="Telephone" name="tel" fullWidth onChange={handleChange} sx={{ backgroundColor: "white" }} />
+                            
+                            <input id="imageInput" type="file" accept="image/*" onChange={handleFileChange} className="bg-white p-2 rounded-md border border-gray-300" />
+                            
+                            <TextField label="Open Time" name="opentime" type="time" fullWidth onChange={handleChange} sx={{ backgroundColor: "white" }} />
+                            <TextField label="Close Time" name="closetime" type="time" fullWidth onChange={handleChange} sx={{ backgroundColor: "white" }} />
+                            
+                            <Button type="submit" variant="contained" color="success">Update</Button>
                         </form>
                     )}
                 </div>
