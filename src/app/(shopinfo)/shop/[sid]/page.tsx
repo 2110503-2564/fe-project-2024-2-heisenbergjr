@@ -1,10 +1,10 @@
 import Image from "next/image"
-import getVenue from "@/libs/getVenue";
+import getVenue from "@/libs/getMassageShop";
 import Link from "next/link";
 
-export default async function VenueDetailPage( {params} : {params: {vid:string}}) {
+export default async function VenueDetailPage( {params} : {params: {sid:string}}) {
 
-    const venueDetail = await getVenue(params.vid);
+    const venueDetail = await getVenue(params.sid);
 
     return(
         <main className="text-center p-5">
@@ -22,7 +22,7 @@ export default async function VenueDetailPage( {params} : {params: {vid:string}}
                     <div className="text-md mx-5">Tel: {venueDetail.data.tel}</div>
                     <div className="text-md mx-5">Daily Rate: {venueDetail.data.dailyrate}</div>
                     
-                    <Link href={`/bookings?id=${params.vid}&name=${venueDetail.data.name}`}>
+                    <Link href={`/bookings?id=${params.sid}&name=${venueDetail.data.name}`}>
                         <button name="Book Venue" className="text-white shadow-white shadow-md px-3 py-2 block rounded-md bg-sky-600 hover:bg-indigo-600">Book Venue</button>
                     </Link>
                 </div>

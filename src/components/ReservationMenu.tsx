@@ -1,6 +1,6 @@
-import styles from './bookingmenu.module.css'
+import styles from './reservationmenu.module.css'
 
-export default function BookingMenu() {
+export default function ReservationMenu() {
     return (
         <div className={styles.submenu}>
             Sub-Menu Here

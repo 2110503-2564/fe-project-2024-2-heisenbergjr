@@ -35,19 +35,6 @@ export default async function DashboardPage() {
                     </tr>
                 </tbody>
             </table>
-
-            {
-                (profile.data.role === "admin") ? 
-                <form>
-                    <div className="text-xl text-blue-700">Create New Venue</div>
-                    <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-white-700 pr-4" htmlFor="name">Name</label>
-                        <input type="text" required id="name" placeholder="Venue Name" 
-                        className="bg-black border-2 border-gray-700 rounded w-full p-m-2 text-gray-400 focus:outline-none focus:border-blue-400"></input>
-                    </div>
-                </form>
-                : null
-            }
         </main>        
     );
 }

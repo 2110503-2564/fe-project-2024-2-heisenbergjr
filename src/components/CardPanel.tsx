@@ -3,12 +3,12 @@ import Card from "./Card";
 import { useReducer, useState } from "react";
 import Link from "next/link";
 import { useRef, useEffect } from "react";
-import getVenues from "@/libs/getVenues";
-import { VenueItem, VenueJson } from "../../interfaces";
+import getVenues from "@/libs/getMassageShops";
+import { ShopItem, ShopJson } from "../../interfaces";
 
 export default function CardPanel() {
 
-    const [venueResponse, setVenueResponse] = useState<VenueJson|null>(null)
+    const [venueResponse, setVenueResponse] = useState<ShopJson|null>(null)
     useEffect(()=>{
         const fetchData = async () => {
             const venues = await getVenues()
@@ -53,9 +53,9 @@ export default function CardPanel() {
             <div style={{margin:"20px", display:"flex", flexDirection:"row",
             flexWrap:"wrap",  alignContent:"space-around", justifyContent:"space-around" 
             }}> {
-                venueResponse.data.map((venueItem:VenueItem)=> (
+                venueResponse.data.map((venueItem:ShopItem)=> (
                     <Link href={`/venue/${venueItem.id}`} className="w-1/5">
-                        <Card venueName={venueItem.name} imgSrc={venueItem.picture}
+                        <Card shopName={venueItem.name} imgSrc={venueItem.picture}
                         onCompare={(venue:string, rating:number)=>{dispatchCompare({type:'set',venueName:venue, rating:rating})}}></Card>
                     </Link>
                     

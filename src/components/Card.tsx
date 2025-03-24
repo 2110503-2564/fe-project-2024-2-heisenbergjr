@@ -2,7 +2,7 @@ import Image from 'next/image';
 import InteractiveCard from './InteractiveCard';
 import { Rating } from '@mui/material';
 
-export default function Card( { venueName, imgSrc, onCompare } : { venueName:string, imgSrc:string, onCompare?:Function }) {
+export default function Card( { shopName: venueName, imgSrc, onCompare } : { shopName:string, imgSrc:string, onCompare?:Function }) {
 
     return (
         <InteractiveCard contentName={venueName}>

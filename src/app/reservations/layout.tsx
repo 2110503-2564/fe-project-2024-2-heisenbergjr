@@ -1,6 +1,5 @@
-import ReservationMenu from "@/components/BookingMenu";
-import styles from './bookings.module.css'
-import BookingMenu from "@/components/BookingMenu";
+import styles from './reservations.module.css'
+import ReservationMenu from "@/components/ReservationMenu";
 
 export default function BookingLayout({
     children
@@ -9,7 +8,7 @@ export default function BookingLayout({
 }) {
     return (
         <div className={styles.sectionlayout}>
-            <BookingMenu></BookingMenu>
+            <ReservationMenu></ReservationMenu>
             {children}
         </div>
     );

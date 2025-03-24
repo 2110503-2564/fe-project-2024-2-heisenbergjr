@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import bookSlice from "./features/bookSlice";
+import bookSlice from "./features/reservSlice";
 import { useSelector, TypedUseSelectorHook } from "react-redux";
 import {persistReducer , FLUSH, REHYDRATE, PAUSE, PERSIST, REGISTER, PURGE} from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
