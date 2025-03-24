@@ -1,5 +1,4 @@
 import Link from "next/link";
-import styles from "./topMenu.module.css"
 
 export default function TopMenuItem( {
     title,
@@ -9,6 +8,11 @@ export default function TopMenuItem( {
     pageRef:string
 }) {
     return (
-        <Link href={pageRef} className={styles.itemcontainer}>{title}</Link>
+        <Link 
+            href={pageRef} 
+            className="w-[125px] text-black h-[50px] mx-[10px] flex items-center justify-center hover:bg-gray-700 hover:text-white transition duration-300 rounded"
+        >
+            {title}
+        </Link>
     );
 }

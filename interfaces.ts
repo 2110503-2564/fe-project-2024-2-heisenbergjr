@@ -3,7 +3,7 @@ export interface ShopItem {
   name: string,
   address: string,
   tel: string,
-  picture: string,
+  imageURL: string,
   opentime: string,
   closetime: string,
   __v: number,

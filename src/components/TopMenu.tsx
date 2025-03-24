@@ -6,36 +6,34 @@ import { Link } from '@mui/material';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 
 export default async function TopMenu() {
-
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
     
     return (
-        <div className="h-[50px] bg-white fixed top-0 left-0 right-0 z-30 border-t-2 border-b-2 border-lightgray flex flex-row items-center justify-end">
-            <div className='fixed top-0 left-0 flex flex row'>
-                {
-                session ? (
-                        <Link href="/api/auth/signout">
-                            <div className="h-full px-2 py-2 text-black-700 text-sm">
-                                Sign-Out
-                            </div>
-                        </Link>
-                    ) : (
-                        <Link href="/api/auth/signin">
-                            <div className="h-full px-2 py-2 text-black-700 text-lg">
-                                Sign-In
-                            </div>
-                        </Link>
-                    )
-                }
-                <TopMenuItem title="My Reservations" pageRef="/myreservation"></TopMenuItem>
+        <div className="h-[60px] w-full bg-white fixed top-0 left-0 z-30 
+            border-b-2 border-gray-300 flex items-center px-6 shadow-md">
+
+            <a href="/" className="h-auto">
+                <Image src="/img/logo.jpg" alt="logo" width={50} height={50} className="rounded-lg" />
+            </a>
+
+            <nav className="flex items-center space-x-6 ml-6 text-lg font-semibold">
+                <TopMenuItem title="Shops" pageRef="/shop" />
+                <TopMenuItem title="Reservations" pageRef="/myreservation" />
+            </nav>
+
+            <div className="ml-auto flex items-center space-x-4 border-black border rounded-md">
+                {session ? (
+                    <Link href="/api/auth/signout" className="px-4 py-2 text-gray-700 bg-gray-100 
+                        rounded-md hover:bg-gray-300 transition">
+                        Sign-Out
+                    </Link>
+                ) : (
+                    <Link href="/api/auth/signin" className="px-4 py-2 text-gray-700 bg-gray-100 
+                        rounded-md hover:bg-gray-300 transition">
+                        Sign-In
+                    </Link>
+                )}
             </div>
-
-            <TopMenuItem title="View Shops" pageRef="/shop"></TopMenuItem>
-
-            <Image src={"/img/logo.png"} className={styles.logoimg} alt='logo'
-            width={0} height={0} sizes='100vh'></Image>
         </div>
-
-        
     );
 }

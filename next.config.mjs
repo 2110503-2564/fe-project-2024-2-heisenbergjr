@@ -1,7 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['drive.google.com']
+        domains: [
+            'lh3.googleusercontent.com',
+            'firebasestorage.googleapis.com', 
+            'drive.google.com',
+          ],
+        remotePatterns: [
+        {
+            protocol: "http",
+            hostname: "localhost",
+            port: "5000",
+            pathname: "/uploads/**",
+        },
+        ],
     },
     async headers() {
         return [
@@ -16,7 +28,10 @@ const nextConfig = {
                 ]
             }
         ]
-    }
+    },
+    env: {
+      NEXT_PUBLIC_BACKEND_URL: "http://localhost:5000",
+    },
 };
 
 export default nextConfig;

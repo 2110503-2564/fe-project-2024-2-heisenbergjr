@@ -18,13 +18,3 @@
     height: 100%;
     width: auto;
 }
-
-.itemcontainer {
-    width: 200px;
-    text-align: center;
-    margin-top: auto;
-    margin-bottom: auto;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 12pt;
-    color: black;
-}
