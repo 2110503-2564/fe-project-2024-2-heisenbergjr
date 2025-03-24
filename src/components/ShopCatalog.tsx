@@ -2,7 +2,7 @@ import Link from "next/link";
 import Card from "./Card";
 import { ShopItem } from "../../interfaces";
 
-export default function ShopCatalog({ shopsJSON }: { shopsJSON: any }) {
+export default function ShopCatalog({ shopsJSON, onDelete }: { shopsJSON: any; onDelete: (shopName: string) => void }) {
     console.log("shopsJSON received in ShopCatalog:", shopsJSON);
     if (!shopsJSON?.data || shopsJSON?.data?.length === 0) {
         return <p className="text-xl text-gray-600">No shops available</p>;
@@ -16,7 +16,11 @@ export default function ShopCatalog({ shopsJSON }: { shopsJSON: any }) {
             <div className="flex flex-wrap justify-around p-5">
                 {shopsJSON.data.map((shopItem: ShopItem) => (
                     <Link key={shopItem.id} href={`/shop/${shopItem.id}`} className="w-1/5">
-                        <Card shopName={shopItem.name} imgSrc={shopItem.imageURL} />
+                        <Card 
+                            shopName={shopItem.name} 
+                            imgSrc={shopItem.imageURL} 
+                            onDelete={() => onDelete(shopItem.id)} 
+                        />
                     </Link>
                 ))}
             </div>

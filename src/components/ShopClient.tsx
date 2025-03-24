@@ -9,12 +9,14 @@ import { fetchBookings } from "@/redux/features/reservSlice";
 import { getSession } from "next-auth/react";
 import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
+import deleteMassageShop from "@/libs/deleteMassageShop";
 
 interface Profile {
     data?: { role?: string };
 }
 
 interface Shop {
+    id: string;
     name: string;
     address: string;
     tel: string;
@@ -147,9 +149,18 @@ export default function ShopClient({ profile, shops }: ShopClientProps) {
         }
     };
 
+    const handleDelete = async (shopId: string) => {
+        try {
+            await deleteMassageShop(shopId, userToken);
+            setShopList(prevShops => prevShops.filter(shop => shop.id !== shopId));
+        } catch (error) {
+            console.error("Error deleting shop:", error);
+        }
+    };
+
     return (
         <main className="text-center p-5">
-            <ShopCatalog shopsJSON={{ data: shopList, count: shopList.length }} />
+            <ShopCatalog shopsJSON={{ data: shopList, count: shopList.length }}  onDelete={handleDelete}/>
 
             {profile?.data?.role === "admin" && (
                 <div className="mt-5">
