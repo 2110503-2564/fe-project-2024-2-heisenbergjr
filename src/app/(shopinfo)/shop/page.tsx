@@ -6,6 +6,8 @@ import ShopClient from "@/components/ShopClient";
 
 export default async function VenuePage() {
     const session = await getServerSession(authOptions);
+    console.log("Session Data:", session); // 🔍 Debugging
+
     const profile = session?.user?.token ? await getUserProfile(session.user.token) : null;
     const shops = await getShops();
 
