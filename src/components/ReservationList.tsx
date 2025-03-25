@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { fetchBookings, removeBooking } from "@/redux/features/reservSlice";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { useDispatch } from "react-redux";
-import getUserProfile from "@/libs/getUserProfile";
 import { getSession } from "next-auth/react";
 import { ReservationItem } from "../../interfaces";
 
@@ -38,7 +37,7 @@ export default function BookingList() {
                 bookItems.map((bookingItem: ReservationItem) => (
                     <div
                         className="bg-slate-200 rounded px-5 mx-5 py-2 my-2 text-black"
-                        key={bookingItem.id} // Use id as key
+                        key={bookingItem.id} 
                     >
                         <div className="text-xl">{bookingItem.user}</div>
                         <div className="text-xl">{bookingItem.massageshop}</div>

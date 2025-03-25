@@ -44,7 +44,7 @@ export const addBooking = createAsyncThunk(
     "book/addBooking",
     async ({ item, token }: { item: ReservationItem; token: string }, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/reservations`, {
+            const response = await fetch(`http://localhost:5000/api/v1/massageShops/${item.massageshop}/reservation`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -98,7 +98,7 @@ export const bookSlice = createSlice({
             })
             .addCase(fetchBookings.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.bookItems = action.payload;
+                state.bookItems = Array.isArray(action.payload) ? action.payload : [];
             })
             .addCase(fetchBookings.rejected, (state, action) => {
                 state.status = "failed";
@@ -109,7 +109,7 @@ export const bookSlice = createSlice({
             })
             .addCase(addBooking.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.bookItems.push(action.payload);
+                state.bookItems = [...state.bookItems, action.payload];
             })
             .addCase(addBooking.rejected, (state, action) => {
                 state.status = "failed";
