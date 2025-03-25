@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { ReservationItem } from "../../interfaces";
 import { addBooking, fetchBookings } from "@/redux/features/reservSlice";
 import TimeInput from "@/components/TimeInput";
+import { ReservationItem } from "../../interfaces";
 
 interface BookingsClientProps {
   userToken: string | undefined;
