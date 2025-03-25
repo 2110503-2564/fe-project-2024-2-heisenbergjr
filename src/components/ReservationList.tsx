@@ -52,10 +52,8 @@ export default function BookingList() {
     };
 
     const handleUpdate = async (id: string) => {
-        console.log(id)
         if (!userToken || !updatedData.reservDate || !updatedData.reservTime) return;
         try { 
-            console.log(id)
             const item: ReservationItem = {
                 id: id,
                 user: { id: uid, name: "", email: "" },

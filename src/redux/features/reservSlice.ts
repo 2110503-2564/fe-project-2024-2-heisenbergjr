@@ -98,7 +98,7 @@ export const removeBooking = createAsyncThunk(
 export const updateBooking = createAsyncThunk(
     "book/updateBooking",
     async ({id, item, token }: { id:string;item: ReservationItem; token: string }, { rejectWithValue }) => {
-        console.log(item.id +"\n"+item.massageshop+"\n"+item.reservDate+"\n"+item.user+"\n"+token)
+        console.log(id + "\n" + item.user.id + " \n" + item.massageshop._id)
         try {
             const response = await fetch(`http://localhost:5000/api/v1/reservations/${id}`, {
                 method: "PUT",
