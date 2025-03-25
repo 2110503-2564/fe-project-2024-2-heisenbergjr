@@ -20,7 +20,7 @@ export const fetchBookings = createAsyncThunk(
     "book/fetchBookings",
     async ({ token, filter }: { token: string; filter: string }, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/reservations?filter=${filter}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/reservations?filter=${filter}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export const addBooking = createAsyncThunk(
     async ({ item, token }: { item: ReservationItem; token: string }, { rejectWithValue }) => {
         console.log(item.user.id +"\n"+item.massageshop._id+"\n"+item.reservDate )
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/massageShops/${item.massageshop}/reservation`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/massageShops/${item.massageshop}/reservation`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export const removeBooking = createAsyncThunk(
     "book/removeBooking",
     async ({ id, token }: { id: string; token: string }, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/reservations/${id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/reservations/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -100,7 +100,7 @@ export const updateBooking = createAsyncThunk(
     async ({id, item, token }: { id:string;item: ReservationItem; token: string }, { rejectWithValue }) => {
         console.log(id + "\n" + item.user.id + " \n" + item.massageshop._id)
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/reservations/${id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/reservations/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

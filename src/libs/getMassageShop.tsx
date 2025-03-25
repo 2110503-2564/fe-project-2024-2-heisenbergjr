@@ -2,7 +2,7 @@ export default async function getShop(id: string) {
     console.log("Fetching shop with ID:", id);
 
     try {
-        const response = await fetch(`http://localhost:5000/api/v1/massageShops/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/massageShops/${id}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             cache: "no-store",

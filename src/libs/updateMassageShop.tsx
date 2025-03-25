@@ -4,7 +4,7 @@ export default async function updateShop(shopId: string, token: string,newData:a
             throw new Error("No token provided");
         }
 
-        const response = await fetch(`http://localhost:5000/api/v1/massageShops/${shopId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/massageShops/${shopId}`, {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${token}`,
