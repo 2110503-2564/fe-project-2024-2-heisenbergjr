@@ -38,9 +38,17 @@ const BookingsClient: React.FC<BookingsClientProps> = ({ userToken, userId }) =>
         try {
             const item: ReservationItem = {
                 id: "1111",
-                user: userId,
-                massageshop: sid,
+                user: { id: userId, name: "", email: "" },
+                massageshop: {
+                    _id: sid,
+                    name: "",
+                    address: "",
+                    tel: "",
+                    opentime: "",
+                    closetime: "",
+                },
                 reservDate: dayjs(bookingDate).format("YYYY-MM-DD") + "T" + time + ":00.000Z",
+                _id: ""
             };
 
             await dispatch(addBooking({ item, token: userToken })).unwrap();

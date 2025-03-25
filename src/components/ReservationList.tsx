@@ -57,11 +57,19 @@ export default function BookingList() {
         try { 
             console.log(id)
             const item: ReservationItem = {
-                            id: id, 
-                            user: uid,
-                            massageshop: msgId,
-                            reservDate: dayjs(updatedData.reservDate).format("YYYY-MM-DD") + "T" + updatedData.reservTime+":00.000Z",
-                        };
+                id: id,
+                user: { id: uid, name: "", email: "" },
+                massageshop: {
+                    _id: msgId,
+                    name: "",
+                    address: "",
+                    tel: "",
+                    opentime: "",
+                    closetime: "",
+                },
+                reservDate: dayjs(updatedData.reservDate).format("YYYY-MM-DD") + "T" + updatedData.reservTime + ":00.000Z",
+                _id: ""
+            };
             await dispatch(updateBooking({ id, item, token: userToken }));
             setEditingId(null);
             dispatch(fetchBookings({ token: userToken, filter }));
@@ -182,7 +190,7 @@ export default function BookingList() {
                                 className="text-white px-3 py-2 block rounded-md bg-green-600 hover:bg-green-700 mt-2"
                                 onClick={() => {
                                     setEditingId(bookingItem._id);
-                                    setMsgId(bookingItem.massageshop?.id);
+                                    setMsgId(bookingItem.massageshop?._id);
                                     setUid(bookingItem.user?.id);
                                     setUpdatedData({ reservDate: "", reservTime:"" });
                                 }}
