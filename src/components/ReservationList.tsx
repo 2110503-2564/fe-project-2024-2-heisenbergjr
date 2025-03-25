@@ -69,7 +69,7 @@ export default function BookingList() {
                 bookItems.map((bookingItem: ReservationItem) => (
                     <div key={bookingItem.id} className="bg-slate-200 rounded px-5 py-2 my-2 text-black shadow-md">
                         <div className="text-lg font-semibold">
-                            <strong>Customer:</strong> {bookingItem.user?.name || "Unknown User"}
+                            <strong>Customer:</strong> {bookingItem.user.name || "Unknown User"}
                         </div>
                         <div className="text-lg">
                             <strong>Reservation Date:</strong> {bookingItem.reservDate ? bookingItem.reservDate.split("T")[0] : ""}
@@ -123,7 +123,7 @@ export default function BookingList() {
 
                         <button
                             className="text-white px-3 py-2 block rounded-md bg-red-600 hover:bg-red-700 mt-2"
-                            onClick={() => handleDelete(bookingItem._id)}
+                            onClick={() => handleDelete(bookingItem?._id)}
                         >
                             Delete Booking
                         </button>
