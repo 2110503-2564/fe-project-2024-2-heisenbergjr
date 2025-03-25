@@ -1,31 +1,21 @@
-'use client'
-import React from 'react';
+"use client";
+import React from "react";
 
-export default function InteractiveCard( { children, contentName } : { children : React.ReactNode, contentName:string}) {
+export default function InteractiveCard({
+  children,
+  contentName,
+}: {
+  children: React.ReactNode;
+  contentName: string;
+}) {
+
+  return (
+    <div
+      className="w-full h-[400px] rounded-xl shadow-lg bg-white transition-all duration-300 ease-in-out 
+                 hover:shadow-2xl hover:bg-neutral-200 hover:scale-105 active:scale-100 cursor-pointer"
     
-    function onVenueSelected() {
-        alert("You selected " + contentName)
-    }
-
-    function onCardMouseAction(event:React.SyntheticEvent) {
-        if (event.type=='mouseover') {
-            event.currentTarget.classList.remove('shadow-lg')
-            event.currentTarget.classList.add('shadow-2xl')
-            event.currentTarget.classList.remove('bg-white')
-            event.currentTarget.classList.add('bg-neutral-200')
-        } else {
-            event.currentTarget.classList.remove('shadow-2xl')
-            event.currentTarget.classList.add('shadow-lg')
-            event.currentTarget.classList.remove('bg-neutral-200')
-            event.currentTarget.classList.add('bg-white')
-        }
-    }
-
-    return (
-        <div className='w-full h-[400px] rounded-lg shadow-white shadow-lg bg-white' 
-        onMouseOver={ (e) => onCardMouseAction(e) }
-        onMouseOut={ (e) => onCardMouseAction(e) }>
-            { children }
-        </div>
-    );
-}  
+    >
+      {children}
+    </div>
+  );
+}

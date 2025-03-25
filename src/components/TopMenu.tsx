@@ -1,13 +1,11 @@
-import styles from './topMenu.module.css'
-import Image from 'next/image';
-import TopMenuItem from './TopMenuItem';
-import { getServerSession } from 'next-auth';
-import { Link } from '@mui/material';
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
+"use client"; 
+import { useSession, signIn, signOut } from "next-auth/react";
+import Image from "next/image";
+import TopMenuItem from "./TopMenuItem";
 
-export default async function TopMenu() {
-    const session = await getServerSession(authOptions);
-    
+export default function TopMenu() {
+    const { data: session } = useSession();
+
     return (
         <div className="h-[60px] w-full bg-white fixed top-0 left-0 z-30 
             border-b-2 border-gray-300 flex items-center px-6 shadow-md">
@@ -23,17 +21,22 @@ export default async function TopMenu() {
             </nav>
                 
             <div className="ml-auto flex items-center space-x-4 border-black border rounded-md">
-                
                 {session ? (
-                    <Link href="/api/auth/signout" className="px-4 py-2 text-gray-700 bg-gray-100 
-                        rounded-md hover:bg-gray-300 transition">
+                    <button 
+                        onClick={() => signOut()} 
+                        className="px-4 py-2 text-gray-700 bg-gray-100 
+                        rounded-md hover:bg-gray-300 transition"
+                    >
                         Sign-Out
-                    </Link>
+                    </button>
                 ) : (
-                    <Link href="/api/auth/signin" className="px-4 py-2 text-gray-700 bg-gray-100 
-                        rounded-md hover:bg-gray-300 transition">
+                    <button 
+                        onClick={() => signIn()} 
+                        className="px-4 py-2 text-gray-700 bg-gray-100 
+                        rounded-md hover:bg-gray-300 transition"
+                    >
                         Sign-In
-                    </Link>
+                    </button>
                 )}
             </div>
         </div>
