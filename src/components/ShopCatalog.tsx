@@ -28,6 +28,7 @@ export default function ShopCatalog({
                 {shopsJSON.data.map((shopItem: ShopItem) => (
                     <Link key={shopItem.id} href={`/shop/${shopItem.id}`} className="block">
                         <Card 
+                            shopId={shopItem.id}
                             shopName={shopItem.name} 
                             imgSrc={shopItem.imageURL} 
                             address={shopItem.address}

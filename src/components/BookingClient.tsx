@@ -70,7 +70,7 @@ const BookingsClient: React.FC<BookingsClientProps> = ({ userToken, userId }) =>
     };
 
     return (
-        <main className="w-full flex flex-col items-center justify-center bg-gray-50 py-10 space-y-6 rounded-lg">
+        <main className=" w-[40%] flex flex-col items-center justify-center bg-gray-50 py-10 space-y-6 rounded-lg mt-5 mx-auto">
             <div className="text-3xl font-bold text-gray-800">Shop Reservation</div>
 
             <div className="w-full max-w-md space-y-4 bg-black shadow-lg rounded-lg p-6">
@@ -94,7 +94,7 @@ const BookingsClient: React.FC<BookingsClientProps> = ({ userToken, userId }) =>
                     className="w-full py-3 rounded-md bg-sky-600 text-white font-semibold shadow-md hover:bg-sky-700 transition-colors"
                     onClick={makeBooking}
                 >
-                    Book Venue
+                    Make Reservation
                 </button>
             </div>
 
