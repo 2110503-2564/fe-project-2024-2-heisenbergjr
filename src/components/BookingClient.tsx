@@ -25,17 +25,17 @@ const BookingsClient: React.FC<BookingsClientProps> = ({ userToken, userId }) =>
 
     useEffect(() => {
         if (userToken) {
-            dispatch(fetchBookings({ token : userToken, filter : ""})); // Fetch bookings with the user token
+            dispatch(fetchBookings({ token : userToken, filter : " "})); // Fetch bookings with the user token
         }
     }, [dispatch, userToken]);
 
     const makeBooking = () => {
         if (userToken && bookingDate && sid && userId && time) {
             const item: ReservationItem = {
-                id: "1111", 
+                id: "1111",  // Let MongoDB handle auto-increment ID
                 user: userId,
                 massageshop: sid,
-                reservDate: dayjs(bookingDate).format("YYYY-MM-DD") + "T" + time+":00.000Z",
+                reservDate: dayjs(bookingDate).format("YYYY/MM/DD") + " " + time,
             };
             dispatch(addBooking({ item, token: userToken }));
 

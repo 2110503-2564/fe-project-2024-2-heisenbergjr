@@ -90,6 +90,33 @@ export const removeBooking = createAsyncThunk(
     }
 );
 
+// **Update a booking (PUT request)**
+export const updateBooking = createAsyncThunk(
+    "book/updateBooking",
+    async ({id, item, token }: { id:string;item: ReservationItem; token: string }, { rejectWithValue }) => {
+        console.log(item.id +"\n"+item.massageshop+"\n"+item.reservDate+"\n"+item.user+"\n"+token)
+        try {
+            const response = await fetch(`http://localhost:5000/api/v1/reservations/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(item)
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to add booking");
+            }
+
+            return await response.json();
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+
 export const bookSlice = createSlice({
     name: "book",
     initialState,
@@ -126,6 +153,19 @@ export const bookSlice = createSlice({
                 state.bookItems = state.bookItems.filter((item) => item.id !== action.payload);
             })
             .addCase(removeBooking.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload as string;
+            })
+            .addCase(updateBooking.pending, (state) => {
+                state.status = "loading";
+            })
+            .addCase(updateBooking.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.bookItems = state.bookItems.map((item) =>
+                    item.id === action.payload.id ? action.payload : item
+                );
+            })
+            .addCase(updateBooking.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.payload as string;
             });
