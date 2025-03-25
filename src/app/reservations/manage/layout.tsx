@@ -5,7 +5,6 @@ export default function ManageBookingsLayout(
         <div className="flex flex-col w-full">
             { children }
             { dashboard } 
-            { manage }
         </div>
     );
 }

@@ -19,9 +19,11 @@ export default async function TopMenu() {
             <nav className="flex items-center space-x-6 ml-6 text-lg font-semibold">
                 <TopMenuItem title="Shops" pageRef="/shop" />
                 <TopMenuItem title="Reservations" pageRef="/myreservation" />
+                <TopMenuItem title="Profile" pageRef="/reservations/manage" />
             </nav>
-
+                
             <div className="ml-auto flex items-center space-x-4 border-black border rounded-md">
+                
                 {session ? (
                     <Link href="/api/auth/signout" className="px-4 py-2 text-gray-700 bg-gray-100 
                         rounded-md hover:bg-gray-300 transition">
