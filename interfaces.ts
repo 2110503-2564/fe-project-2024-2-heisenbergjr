@@ -19,7 +19,7 @@ export interface ShopJson {
 
 export  interface ReservationItem {
     id:string
-    nameLastname: string;
-    shop: string;
-    bookDate: string;
+    user: string;
+    massageshop: string;
+    reservDate: string;
   }

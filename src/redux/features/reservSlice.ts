@@ -80,7 +80,7 @@ export const removeBooking = createAsyncThunk(
                 throw new Error("Failed to delete booking");
             }
 
-            return id; // Return the ID of the deleted booking
+            return id; // Return the ID of the deleted booking (backend uses _id)
         } catch (error: any) {
             return rejectWithValue(error.message);
         }
