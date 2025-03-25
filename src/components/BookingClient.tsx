@@ -35,7 +35,7 @@ const BookingsClient: React.FC<BookingsClientProps> = ({ userToken, userId }) =>
                 id: "1111",  // Let MongoDB handle auto-increment ID
                 user: userId,
                 massageshop: sid,
-                reservDate: dayjs(bookingDate).format("YYYY/MM/DD") + " " + time,
+                reservDate: dayjs(bookingDate).format("YYYY-MM-DD") + "T" + time+":00.000Z",
             };
             dispatch(addBooking({ item, token: userToken }));
 

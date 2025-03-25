@@ -65,17 +65,45 @@ export default function BookingList() {
         <div className="container mx-auto p-5">
             <h2 className="text-3xl font-bold text-center mb-5">Your Reservations</h2>
 
+            <div className="flex justify-center gap-4 mb-5 text-black">
+                <button 
+                    className={`px-4 py-2 rounded-md ${filter === "" ? "bg-blue-600" : "bg-gray-200"}`} 
+                    onClick={() => setFilter("")}
+                >
+                    All
+                </button>
+                <button 
+                    className={`px-4 py-2 rounded-md ${filter === "today" ? "bg-blue-600" : "bg-gray-200"}`} 
+                    onClick={() => setFilter("today")}
+                >
+                    Today
+                </button>
+                <button 
+                    className={`px-4 py-2 rounded-md ${filter === "upcoming" ? "bg-blue-600" : "bg-gray-200"}`} 
+                    onClick={() => setFilter("upcoming")}
+                >
+                    Upcoming
+                </button>
+            </div>
+
+            {status === "loading" && <p className="text-center text-gray-500">Loading reservations...</p>}
+
             {bookItems.length > 0 ? (
                 bookItems.map((bookingItem: ReservationItem) => (
                     <div key={bookingItem.id} className="bg-slate-200 rounded px-5 py-2 my-2 text-black shadow-md">
                         <div className="text-lg font-semibold">
-                            <strong>Customer:</strong> {bookingItem.user?.name || "Unknown User"}
+                            <strong>Customer:</strong> {
+                                bookingItem?.user?.name ?
+                                    bookingItem.user?.name : "Unknown User"
+                            }
                         </div>
                         <div className="text-lg">
-                            <strong>Reservation Date:</strong> {bookingItem.reservDate}
+                            <strong>Reservation Date: </strong> 
+                            {new Date(bookingItem.reservDate).toLocaleDateString()} {/* This will show just the date */}
                         </div>
                         <div className="text-lg">
-                            <strong>Reservation Time:</strong> {bookingItem.reservTime || "Not Set"}
+                            <strong>Reservation Time:</strong> 
+                            {new Date(bookingItem.reservDate).toLocaleTimeString() || "Not Set"} {/* This will show just the time */}
                         </div>
 
                         {editingId === bookingItem._id ? (
