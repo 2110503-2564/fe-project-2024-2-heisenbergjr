@@ -45,6 +45,7 @@ export const fetchBookings = createAsyncThunk(
 export const addBooking = createAsyncThunk(
     "book/addBooking",
     async ({ item, token }: { item: ReservationItem; token: string }, { rejectWithValue }) => {
+        console.log(item.id +"\n"+item.massageshop+"\n"+item.reservDate+"\n"+item.user+"\n"+token)
         try {
             const response = await fetch(`http://localhost:5000/api/v1/massageShops/${item.massageshop}/reservation`, {
                 method: "POST",
