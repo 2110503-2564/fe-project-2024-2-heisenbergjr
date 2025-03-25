@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { ReservationItem } from "../../interfaces";
 import { addBooking, fetchBookings } from "@/redux/features/reservSlice";
 import TimeInput from "@/components/TimeInput";
+import { ReservationItem } from "../../interfaces";
 
 interface BookingsClientProps {
   userToken: string | undefined;
@@ -35,7 +35,7 @@ const BookingsClient: React.FC<BookingsClientProps> = ({ userToken, userId }) =>
                 id: "1111",  // Let MongoDB handle auto-increment ID
                 user: userId,
                 massageshop: sid,
-                reservDate: dayjs(bookingDate).format("YYYY/MM/DD") + " " + time,
+                reservDate: dayjs(bookingDate).format("YYYY-MM-DD") + "T" + time+":00.000Z",
             };
             dispatch(addBooking({ item, token: userToken }));
 

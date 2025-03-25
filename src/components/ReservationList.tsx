@@ -9,13 +9,14 @@ import dayjs from "dayjs";
 
 export default function BookingList() {
     const dispatch = useDispatch<AppDispatch>();
-    const { bookItems, status } = useAppSelector((state) => state.bookSlice);
+    const { bookItems, status, error } = useAppSelector((state) => state.bookSlice);
     const [userToken, setUserToken] = useState<string | null>(null);
-    const [filter, setFilter] = useState<string>("");
+    const [filter, setFilter] = useState<string>(""); // Store selected filter
     const [editingId, setEditingId] = useState<string | null>(null);
     const [updatedData, setUpdatedData] = useState<{ reservDate: string; reservTime: string }>({ reservDate: "", reservTime: "" });
     const [msgId,setMsgId] = useState<string>("");
     const [uid,setUid] = useState<string>("");
+
     useEffect(() => {
         const fetchUserData = async () => {
             const session = await getSession();
@@ -23,6 +24,7 @@ export default function BookingList() {
                 setUserToken(session.user.token);
             }
         };
+
         fetchUserData();
     }, []);
 
@@ -33,9 +35,16 @@ export default function BookingList() {
     }, [userToken, filter, dispatch]);
 
     const handleDelete = async (id: string) => {
-        if (!userToken) return;
+        if (!userToken) {
+            console.error("No user token found. Cannot delete booking.");
+            return;
+        }
+
         try {
             await dispatch(removeBooking({ id, token: userToken })).unwrap();
+            console.log("Booking deleted successfully.");
+
+            // Refetch the bookings after successful deletion
             dispatch(fetchBookings({ token: userToken, filter }));
         } catch (err) {
             console.error("Error deleting booking:", err);
@@ -65,12 +74,73 @@ export default function BookingList() {
         <div className="container mx-auto p-5">
             <h2 className="text-3xl font-bold text-center mb-5">Your Reservations</h2>
 
+            <div className="flex justify-center gap-4 mb-5 text-black">
+                <button 
+                    className={`px-4 py-2 rounded-md ${filter === "" ? "bg-blue-600" : "bg-gray-200"}`} 
+                    onClick={() => setFilter("")}
+                >
+                    All
+                </button>
+                <button 
+                    className={`px-4 py-2 rounded-md ${filter === "today" ? "bg-blue-600" : "bg-gray-200"}`} 
+                    onClick={() => setFilter("today")}
+                >
+                    Today
+                </button>
+                <button 
+                    className={`px-4 py-2 rounded-md ${filter === "upcoming" ? "bg-blue-600" : "bg-gray-200"}`} 
+                    onClick={() => setFilter("upcoming")}
+                >
+                    Upcoming
+                </button>
+            </div>
+
+            {status === "loading" && <p className="text-center text-gray-500">Loading reservations...</p>}
+
             {bookItems.length > 0 ? (
                 bookItems.map((bookingItem: ReservationItem) => (
-                    <div key={bookingItem.id} className="bg-slate-200 rounded px-5 py-2 my-2 text-black shadow-md">
-                        <div className="text-lg font-semibold">
-                            <strong>Customer:</strong> {bookingItem.user.name || "Unknown User"}
-                        </div>
+                    <div
+                        className="bg-slate-200 rounded px-5 mx-5 py-2 my-2 text-black shadow-md"
+                        key={bookingItem.id}
+                    >
+                        {bookingItem.user?.name ? (
+                            <div className="text-lg font-semibold">
+                                <strong>Customer:</strong> {bookingItem.user.name} ({bookingItem.user.email})
+                            </div>
+                        ) : (
+                            <div className="text-lg font-semibold text-black-500">
+                                <strong>Customer:</strong> Unknown User
+                            </div>
+                        )}
+
+                        {bookingItem.massageshop?.name ? (
+                            <div className="text-lg font-semibold">
+                                <strong>Massage Shop:</strong> {bookingItem.massageshop.name}
+                            </div>
+                        ) : (
+                            <div className="text-lg font-semibold text-red-500">
+                                <strong>Massage Shop:</strong> Unknown Shop
+                            </div>
+                        )}
+
+                        {bookingItem.massageshop?.address && (
+                            <div className="text-lg font-semibold">
+                                <strong>Address:</strong> {bookingItem.massageshop.address}
+                            </div>
+                        )}
+
+                        {bookingItem.massageshop?.tel && (
+                            <div className="text-lg font-semibold">
+                                <strong>Phone:</strong> {bookingItem.massageshop.tel}
+                            </div>
+                        )}
+
+                        {bookingItem.massageshop?.opentime && bookingItem.massageshop?.closetime && (
+                            <div className="text-lg font-semibold">
+                                <strong>Opening Hours:</strong> {bookingItem.massageshop.opentime} - {bookingItem.massageshop.closetime}
+                            </div>
+                        )}
+
                         <div className="text-lg">
                             <strong>Reservation Date:</strong> {bookingItem.reservDate ? bookingItem.reservDate.split("T")[0] : ""}
                         </div>
@@ -121,9 +191,10 @@ export default function BookingList() {
                             </button>
                         )}
 
+
                         <button
-                            className="text-white px-3 py-2 block rounded-md bg-red-600 hover:bg-red-700 mt-2"
-                            onClick={() => handleDelete(bookingItem?._id)}
+                            className="text-white shadow-md px-3 py-2 block rounded-md bg-red-600 hover:bg-red-700 mt-2"
+                            onClick={() => handleDelete(bookingItem._id)}
                         >
                             Delete Booking
                         </button>
