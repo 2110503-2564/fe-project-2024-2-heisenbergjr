@@ -45,7 +45,7 @@ export const fetchBookings = createAsyncThunk(
 export const addBooking = createAsyncThunk(
     "book/addBooking",
     async ({ item, token }: { item: ReservationItem; token: string }, { rejectWithValue }) => {
-        console.log(item.id +"\n"+item.massageshop+"\n"+item.reservDate+"\n"+item.user+"\n"+token)
+        console.log(item.user.id +"\n"+item.massageshop._id+"\n"+item.reservDate )
         try {
             const response = await fetch(`http://localhost:5000/api/v1/massageShops/${item.massageshop}/reservation`, {
                 method: "POST",
@@ -53,7 +53,11 @@ export const addBooking = createAsyncThunk(
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(item)
+                body: JSON.stringify({
+                    user: item.user.id, 
+                    massageshop: item.massageshop._id, 
+                    reservDate: item.reservDate 
+                })
             });
 
             if (!response.ok) {
@@ -94,7 +98,7 @@ export const removeBooking = createAsyncThunk(
 export const updateBooking = createAsyncThunk(
     "book/updateBooking",
     async ({id, item, token }: { id:string;item: ReservationItem; token: string }, { rejectWithValue }) => {
-        console.log(item.id +"\n"+item.massageshop+"\n"+item.reservDate+"\n"+item.user+"\n"+token)
+        console.log(id + "\n" + item.user.id + " \n" + item.massageshop._id)
         try {
             const response = await fetch(`http://localhost:5000/api/v1/reservations/${id}`, {
                 method: "PUT",
@@ -102,7 +106,12 @@ export const updateBooking = createAsyncThunk(
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(item)
+                body: JSON.stringify({
+                    id: id,
+                    user: item.user.id, 
+                    massageshop: item.massageshop._id, 
+                    reservDate: item.reservDate 
+                })
             });
 
             if (!response.ok) {

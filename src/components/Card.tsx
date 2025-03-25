@@ -3,6 +3,7 @@ import WebImage from "./WebImage";
 import { Button } from "@mui/material";
 
 export default function Card({ 
+    shopId,
     shopName: shopName, 
     imgSrc, 
     onCompare, 
@@ -13,6 +14,7 @@ export default function Card({
     opentime, 
     closetime, 
 }: { 
+    shopId: string;
     shopName: string; 
     imgSrc: string;
     address: string;
@@ -25,12 +27,17 @@ export default function Card({
 }) {
     return (
         <InteractiveCard contentName={shopName}>
-            <div className="w-full h-[50%] relative object-cover rounded-lg">
+            <div className="w-full h-[50%] relative object-cover rounded-lg ">
                 <WebImage imgSrc={imgSrc} />
             </div>
 
             <div className="p-4 text-left text-black">
                 <h3 className="text-2xl font-bold text-center">{shopName}</h3>
+                {
+                    role === "admin" && (
+                        <p className="text-gray-700 text-md mt-1"><strong>Shop ID:</strong> {shopId}</p>
+                    )
+                }
                 <p className="text-gray-700 text-md mt-1"><strong>Address:</strong> {address}</p>
                 <p className="text-gray-700 text-md"><strong>Tel:</strong> {tel}</p>
                 <p className="text-gray-700 text-md"><strong>Open:</strong> {opentime} - {closetime}</p>

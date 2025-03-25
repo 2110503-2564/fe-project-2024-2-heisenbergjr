@@ -17,9 +17,26 @@ export interface ShopJson {
     data: ShopItem[]
   }
 
-export  interface ReservationItem {
-    id:string
-    user: string;
-    massageshop: string;
-    reservDate: string;
+  export interface User {
+    id: string;
+    name: string;
+    email: string;
   }
+  
+  export interface MassageShop {
+    _id: string;
+    name: string;
+    address: string;
+    tel: string;
+    opentime: string;
+    closetime: string;
+  }
+  
+  export interface ReservationItem {
+    id: string;
+    user: User;  
+    massageshop: MassageShop; 
+    reservDate: string;
+    _id: string;
+  }
+  
