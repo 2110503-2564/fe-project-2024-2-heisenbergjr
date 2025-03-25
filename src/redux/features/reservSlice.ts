@@ -18,9 +18,9 @@ const initialState: BookState = {
 // **Fetch reservations from backend**
 export const fetchBookings = createAsyncThunk(
     "book/fetchBookings",
-    async (token: string, { rejectWithValue }) => {
+    async ({ token, filter }: { token: string; filter: string }, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/reservations`, {
+            const response = await fetch(`http://localhost:5000/api/v1/reservations?filter=${filter}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -32,19 +32,21 @@ export const fetchBookings = createAsyncThunk(
                 throw new Error("Failed to fetch bookings");
             }
 
-            return await response.json();
+            const data = await response.json();
+            return data.data; // Return only the array of reservations
         } catch (error: any) {
             return rejectWithValue(error.message);
         }
     }
 );
 
+
 // **Add a new booking (POST request)**
 export const addBooking = createAsyncThunk(
     "book/addBooking",
     async ({ item, token }: { item: ReservationItem; token: string }, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/reservations`, {
+            const response = await fetch(`http://localhost:5000/api/v1/massageShops/${item.massageshop}/reservation`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -98,7 +100,7 @@ export const bookSlice = createSlice({
             })
             .addCase(fetchBookings.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.bookItems = action.payload;
+                state.bookItems = Array.isArray(action.payload) ? action.payload : [];
             })
             .addCase(fetchBookings.rejected, (state, action) => {
                 state.status = "failed";
@@ -109,7 +111,7 @@ export const bookSlice = createSlice({
             })
             .addCase(addBooking.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.bookItems.push(action.payload);
+                state.bookItems = [...state.bookItems, action.payload];
             })
             .addCase(addBooking.rejected, (state, action) => {
                 state.status = "failed";
