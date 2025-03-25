@@ -8,7 +8,6 @@ export default function BookingLayout({
 }) {
     return (
         <div className={styles.sectionlayout}>
-            <ReservationMenu></ReservationMenu>
             {children}
         </div>
     );

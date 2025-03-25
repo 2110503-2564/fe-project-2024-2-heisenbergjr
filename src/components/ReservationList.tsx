@@ -14,16 +14,23 @@ export default function BookingList() {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const session = await getSession();  
+            const session = await getSession();
             if (session?.user?.token) {
-                const userProfile = await getUserProfile(session.user.token);
-                setUserToken(userProfile);
-                dispatch(fetchBookings(userProfile));  
+                setUserToken(session.user.token); // Store only the token
+                dispatch(fetchBookings(session.user.token));  // Fetch bookings using token
             }
         };
 
         fetchUserData();
-    }, [dispatch]);
+    }, [dispatch]); // Don't depend on userToken; let it fetch once
+
+    const handleDelete = (id: string) => {
+        if (userToken) {
+            dispatch(removeBooking({ id, token: userToken })); // Pass correct arguments
+        } else {
+            console.error("No user token found. Cannot delete booking.");
+        }
+    };
 
     return (
         <>
@@ -31,23 +38,22 @@ export default function BookingList() {
                 bookItems.map((bookingItem: ReservationItem) => (
                     <div
                         className="bg-slate-200 rounded px-5 mx-5 py-2 my-2 text-black"
-                        key={`${bookingItem.nameLastname}-${bookingItem.tel}-${bookingItem.bookDate}`}
+                        key={bookingItem.id} // Use id as key
                     >
                         <div className="text-xl">{bookingItem.nameLastname}</div>
-                        <div className="text-xl">{bookingItem.tel}</div>
-                        <div className="text-xl">{bookingItem.venue}</div>
+                        <div className="text-xl">{bookingItem.shop}</div>
                         <div className="text-xl">{bookingItem.bookDate}</div>
                         <button
                             name="Book Venue"
                             className="text-white shadow-white shadow-md px-3 py-2 block rounded-md bg-sky-600 hover:bg-indigo-600"
-                            onClick={() => dispatch(removeBooking(bookingItem))}
+                            onClick={() => handleDelete(bookingItem.id)}
                         >
                             Delete Booking
                         </button>
                     </div>
                 ))
             ) : (
-                <div className="text-center text-lg text-gray-500">No Venue Booking</div>
+                <div className="text-center text-lg text-gray-500">No Shop Booking</div>
             )}
         </>
     );

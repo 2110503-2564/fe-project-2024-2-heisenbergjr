@@ -18,8 +18,8 @@ export interface ShopJson {
   }
 
 export  interface ReservationItem {
+    id:string
     nameLastname: string;
-    tel: string;
     shop: string;
     bookDate: string;
   }
