@@ -40,9 +40,9 @@ export default function BookingList() {
                         className="bg-slate-200 rounded px-5 mx-5 py-2 my-2 text-black"
                         key={bookingItem.id} // Use id as key
                     >
-                        <div className="text-xl">{bookingItem.nameLastname}</div>
-                        <div className="text-xl">{bookingItem.shop}</div>
-                        <div className="text-xl">{bookingItem.bookDate}</div>
+                        <div className="text-xl">{bookingItem.user}</div>
+                        <div className="text-xl">{bookingItem.massageshop}</div>
+                        <div className="text-xl">{bookingItem.reservDate}</div>
                         <button
                             name="Book Venue"
                             className="text-white shadow-white shadow-md px-3 py-2 block rounded-md bg-sky-600 hover:bg-indigo-600"
