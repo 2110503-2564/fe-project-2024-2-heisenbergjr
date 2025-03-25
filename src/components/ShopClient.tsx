@@ -209,10 +209,10 @@ export default function ShopClient({ profile, shops }: ShopClientProps) {
 
     return (
         <main className="text-center p-5">
-            <ShopCatalog shopsJSON={{ data: shopList, count: shopList.length }}  onDelete={handleDelete}/>
+            <ShopCatalog shopsJSON={{ data: shopList, count: shopList.length}}  onDelete={handleDelete} role={profile?.data?.role} />
 
             {profile?.data?.role === "admin" && (
-                <div className="mt-5 space-x-10">
+                <div className="mt-5 mx-auto space-x-10">
                     <Button variant="contained" color="primary" onClick={() =>{setShowAddForm(!showAddForm);setShowUpdateForm(false);}}>
                         {showAddForm ? "Cancel" : "Add Shop"}
                     </Button>
@@ -220,32 +220,64 @@ export default function ShopClient({ profile, shops }: ShopClientProps) {
                         {showUpdateForm ? "Cancel" : "Update Shop"}
                     </Button>
                     {showAddForm && (
-                        <form onSubmit={handleSubmit} className="mt-4 space-y-2">
-                            <TextField label="Name" name="name" fullWidth required onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            <TextField label="Address" name="address" fullWidth required onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            <TextField label="Telephone" name="tel" fullWidth required onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            
-                            <input id="imageInput" type="file" accept="image/*" required onChange={handleFileChange} className="bg-white p-2 rounded-md border border-gray-300" />
-                            
-                            <TextField label="Open Time" name="opentime" type="time" fullWidth required onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            <TextField label="Close Time" name="closetime" type="time" fullWidth required onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            
+                        <form onSubmit={handleSubmit} className="mt-4 space-y-2 px-20">
+                            <TextField label="Name" name="name" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+
+                            <TextField label="Address" name="address" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+
+                            <TextField label="Telephone" name="tel" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+
+                            <TextField label="Open Time" name="opentime" type="time" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+
+                            <TextField label="Close Time" name="closetime" type="time" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+                            <div className="relative">
+                                <input 
+                                    id="imageInput" 
+                                    type="file" 
+                                    accept="image/*" 
+                                    onChange={handleFileChange} 
+                                    className="hidden" 
+                                />
+                                <label 
+                                    htmlFor="imageInput" 
+                                    className="bg-black text-white border border-gray-300 p-2 rounded-md cursor-pointer hover:bg-gray-800"
+                                >
+                                    Choose File
+                                </label>
+                            </div>
+                            <br></br>
                             <Button type="submit" variant="contained" color="success">Add</Button>
                         </form>
                     )}
                     
                     {showUpdateForm && (
                         <form onSubmit={handleUpdate} className="mt-4 space-y-2">
-                            <TextField label="Shop ID" name="id" fullWidth required onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            <TextField label="Name" name="name" fullWidth onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            <TextField label="Address" name="address" fullWidth onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            <TextField label="Telephone" name="tel" fullWidth onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            
-                            <input id="imageInput" type="file" accept="image/*" onChange={handleFileChange} className="bg-white p-2 rounded-md border border-gray-300" />
-                            
-                            <TextField label="Open Time" name="opentime" type="time" fullWidth onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            <TextField label="Close Time" name="closetime" type="time" fullWidth onChange={handleChange} sx={{ backgroundColor: "white" }} />
-                            
+                            <TextField label="Shop ID" name="id" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+                            <TextField label="Name" name="name" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+
+                            <TextField label="Address" name="address" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+
+                            <TextField label="Telephone" name="tel" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+
+                            <TextField label="Open Time" name="opentime" type="time" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+
+                            <TextField label="Close Time" name="closetime" type="time" fullWidth required onChange={handleChange} sx={{ backgroundColor: "black", border: "1px solid #87CEEB", "& .MuiInputBase-input": { color: "white" }, "& .MuiInputLabel-root": { color: "white" } }} />
+                            <div className="relative">
+                                <input 
+                                    id="imageInput" 
+                                    type="file" 
+                                    accept="image/*" 
+                                    onChange={handleFileChange} 
+                                    className="hidden" 
+                                />
+                                <label 
+                                    htmlFor="imageInput" 
+                                    className="bg-black text-white border border-gray-300 p-2 rounded-md cursor-pointer hover:bg-gray-800"
+                                >
+                                    Choose File
+                                </label>
+                            </div>
+                            <br></br>
                             <Button type="submit" variant="contained" color="success">Update</Button>
                         </form>
                     )}
