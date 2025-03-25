@@ -72,10 +72,10 @@ export default function BookingList() {
                             <strong>Customer:</strong> {bookingItem.user?.name || "Unknown User"}
                         </div>
                         <div className="text-lg">
-                            <strong>Reservation Date:</strong> {updatedData.reservDate}
+                            <strong>Reservation Date:</strong> {bookingItem.reservDate ? bookingItem.reservDate.split("T")[0] : ""}
                         </div>
                         <div className="text-lg">
-                            <strong>Reservation Time:</strong> {updatedData.reservTime}
+                            <strong>Reservation Time:</strong> {bookingItem.reservDate ? bookingItem.reservDate.split("T")[1].split(".")[0]: ""}
                         </div>
 
                         {editingId === bookingItem._id ? (
@@ -94,7 +94,9 @@ export default function BookingList() {
                                 />
                                 <button
                                     className="ml-2 px-3 py-1 bg-green-600 text-white rounded"
-                                    onClick={() => {handleUpdate(bookingItem._id); console.log(bookingItem._id)}}
+                                    onClick={() => {
+                                        handleUpdate(bookingItem._id);
+                                    }}
                                 >
                                     Save
                                 </button>
