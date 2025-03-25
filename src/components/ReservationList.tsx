@@ -72,10 +72,10 @@ export default function BookingList() {
                             <strong>Customer:</strong> {bookingItem.user?.name || "Unknown User"}
                         </div>
                         <div className="text-lg">
-                            <strong>Reservation Date:</strong> {bookingItem.reservDate}
+                            <strong>Reservation Date:</strong> {updatedData.reservDate}
                         </div>
                         <div className="text-lg">
-                            <strong>Reservation Time:</strong> {bookingItem.reservTime || "Not Set"}
+                            <strong>Reservation Time:</strong> {updatedData.reservTime}
                         </div>
 
                         {editingId === bookingItem._id ? (
@@ -112,7 +112,7 @@ export default function BookingList() {
                                     setEditingId(bookingItem._id);
                                     setMsgId(bookingItem.massageshop?.id);
                                     setUid(bookingItem.user?.id);
-                                    setUpdatedData({ reservDate: bookingItem.reservDate, reservTime: bookingItem.reservTime || "" });
+                                    setUpdatedData({ reservDate: "", reservTime:"" });
                                 }}
                             >
                                 Update Booking
