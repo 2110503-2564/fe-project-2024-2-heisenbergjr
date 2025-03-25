@@ -19,59 +19,66 @@ const BookingsClient: React.FC<BookingsClientProps> = ({ userToken, userId }) =>
     const sid = urlParams.get("id");
     const [time, setTime] = useState("10:00");
     const [bookingDate, setBookingDate] = useState<dayjs.Dayjs | null>(null);
-    const [notification, setNotification] = useState<string | null>(null); // State for notification
+    const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         if (userToken) {
-            dispatch(fetchBookings({ token : userToken, filter : " "})); // Fetch bookings with the user token
+            dispatch(fetchBookings({ token: userToken, filter: " " }));
         }
     }, [dispatch, userToken]);
 
-    const makeBooking = () => {
-        if (userToken && bookingDate && sid && userId && time) {
+    const makeBooking = async () => {
+        if (!userToken || !bookingDate || !sid || !userId || !time) {
+            showNotification("Missing booking details or user token", "error");
+            return;
+        }
+
+        try {
             const item: ReservationItem = {
-                id: "1111",  // Let MongoDB handle auto-increment ID
+                id: "1111",
                 user: userId,
                 massageshop: sid,
-                reservDate: dayjs(bookingDate).format("YYYY-MM-DD") + "T" + time+":00.000Z",
+                reservDate: dayjs(bookingDate).format("YYYY-MM-DD") + "T" + time + ":00.000Z",
             };
-            dispatch(addBooking({ item, token: userToken }));
 
-            // Show success notification
-            setNotification("Successfully made reservation");
+            await dispatch(addBooking({ item, token: userToken })).unwrap();
+            showNotification("Successfully made reservation", "success");
 
-            // Hide notification after 3 seconds
-            setTimeout(() => {
-                setNotification(null);
-            }, 3000); 
-
-            // Reset fields
             setTime("00:00");
-            setBookingDate(null);
-        } else {
-            console.error("Missing booking details or user token");
+        } catch (error) {
+            console.error("Booking error:", error);
+            showNotification("Failed to make a reservation", "error");
         }
     };
 
-    const handleTimeChange = (newTime: string) => {
-        setTime(newTime); 
+    const showNotification = (message: string, type: "success" | "error") => {
+        setNotification({ message, type });
+
+        setTimeout(() => {
+            setNotification(null);
+        }, 3000);
     };
 
     return (
         <main className="w-full flex flex-col items-center justify-center bg-gray-50 py-10 space-y-6 rounded-lg">
             <div className="text-3xl font-bold text-gray-800">Shop Reservation</div>
-            
+
             <div className="w-full max-w-md space-y-4 bg-black shadow-lg rounded-lg p-6">
                 <div className="text-lg text-left text-white">Time Slot</div>
-                <div className="bg-gray-100 rounded-lg p-4">
-                    <TimeInput value={time} onChange={handleTimeChange} />
+                <div className="bg-gray-100 rounded-lg p-4 ">
+                    <input
+                        type="time"
+                        value={time}
+                        onChange={(e) => setTime(e.target.value)} 
+                        className="px-2 py-1 border rounded w-full"
+                    />
                 </div>
 
                 <div className="text-lg text-left text-white">Booking Date</div>
-                <div className="bg-gray-100 rounded-lg p-4">
-                    <DateReserve onDateChange={(value) => setBookingDate(value)} />
+                <div className="bg-black text-white rounded-lg p-4">
+                    <DateReserve onDateChange={setBookingDate} />
                 </div>
 
                 <button
@@ -84,8 +91,12 @@ const BookingsClient: React.FC<BookingsClientProps> = ({ userToken, userId }) =>
             </div>
 
             {notification && (
-                <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-md shadow-xl opacity-90 transition-opacity duration-500">
-                    {notification}
+                <div
+                    className={`fixed bottom-6 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-md shadow-xl opacity-90 transition-opacity duration-500 ${
+                        notification.type === "success" ? "bg-green-600 text-white" : "bg-red-600 text-white"
+                    }`}
+                >
+                    {notification.message}
                 </div>
             )}
         </main>
