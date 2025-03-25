@@ -1,20 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const TimeInput: React.FC = () => {
-  const [value, setValue] = useState("0:00");
+// TimeInput component
+interface TimeInputProps {
+  value: string;
+  onChange: (newValue: string) => void;
+}
 
+const TimeInput: React.FC<TimeInputProps> = ({ value, onChange }) => {
   const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     const seconds = Math.max(0, getSecondsFromHHMMSS(inputValue));
     const formattedTime = toHHMMSS(seconds);
-    setValue(formattedTime);
+    onChange(formattedTime); // Update the parent component's state
   };
 
   return (
     <input
       type="text"
       value={value}
-      onChange={(e) => setValue(e.target.value)}
+      onChange={(e) => onChange(e.target.value)} // Handle onChange in parent
       onBlur={handleBlur}
     />
   );
